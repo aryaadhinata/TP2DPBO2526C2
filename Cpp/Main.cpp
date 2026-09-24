@@ -233,7 +233,7 @@ void tampilkanTabelPenayangan(vector<PenayanganReguler>& daftarReguler,
     // lalu IMAX (BUKAN berdasarkan urutan data dimasukkan).
     // 'auto&' = alias ke elemen asli vector (tanpa menyalin objek).
     vector<vector<string>> baris;
-    int nomor = 0;   // nomor urut, akan dinaikkan di dalam tambahBaris
+    int nomor = 1;   // nomor urut, akan dinaikkan di dalam tambahBaris
     for (auto& obj : daftarReguler) tambahBaris(baris, obj, nomor);
     for (auto& obj : daftar3D)      tambahBaris(baris, obj, nomor);
     for (auto& obj : daftarIMAX)    tambahBaris(baris, obj, nomor);
