@@ -51,43 +51,39 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Isi 5 data awal, HANYA SEKALI per session (isset mencegah data
-// user yang sudah ditambahkan tertimpa ulang tiap halaman dibuka).
-// Padanan 5 baris hardcode di awal main() versi C++/Java/Python.
-function inisialisasiData() {
-    if (!isset($_SESSION['daftarReguler'])) {
-        $_SESSION['daftarReguler'] = [];
-        $_SESSION['daftar3D'] = [];
-        $_SESSION['daftarIMAX'] = [];
+// Data awal dibuat ulang pada setiap request. Data tambahan hanya disimpan
+// sementara di session oleh proses_tambah.php, lalu dikonsumsi pada request
+// GET pertama setelah redirect. Karena itu, refresh berikutnya kembali hanya
+// menampilkan data awal.
+$daftarReguler = [
+    new PenayanganReguler(
+        "Avengers: Doomsday", "Aksi", 180, "AvengersDoomsday.jpg", "2026-12-01", "19:00", "Studio 1", 50000
+    ),
+    new PenayanganReguler(
+        "Zootopia 2", "Animasi", 108, "Zootopia2.jpg", "2026-11-15", "16:30", "Studio 4", 45000
+    ),
+];
+$daftar3D = [
+    new Penayangan3D(
+        "Spider-Man: Brand New Day", "Aksi", 150, "SpidermanBrandNewDayPoster.jpg", "2026-08-25", "20:00", "Studio 2", 60000, 15000
+    ),
+    new Penayangan3D(
+        "Avatar: Fire and Ash", "Fantasi", 195, "AvatarFireAndAsh.jpg", "2026-12-19", "18:00", "Studio 5", 65000, 20000
+    ),
+];
+$daftarIMAX = [
+    new PenayanganIMAX(
+        "Dune: Part Three", "Sci-Fi", 165, "DunePartThree.jpg", "2026-10-10", "21:00", "Studio 3", 70000, 22.5, 35000
+    ),
+];
 
-        // fotoFilm cukup diisi NAMA FILE saja (JANGAN diberi awalan
-        // "uploads/" atau "uploads\") -- prefix folder uploads/ sudah
-        // otomatis ditambahkan saat menampilkan <img> di tabel (lihat
-        // bagian render tabel di bawah). Backslash "\" juga tidak boleh
-        // dipakai karena itu pemisah folder gaya Windows, sedangkan
-        // path di HTML/URL selalu memakai forward slash "/".
-        // Agar foto-foto ini benar-benar tampil, taruh file dengan nama
-        // PERSIS berikut di dalam folder uploads/:
-        //   AvengersDoomsday.jpg, SpidermanBrandNewDayPoster.jpg,
-        //   DunePartThree.jpg, Zootopia2.jpg, AvatarFireAndAsh.jpg
-        $_SESSION['daftarReguler'][] = new PenayanganReguler(
-            "Avengers: Doomsday", "Aksi", 180, "AvengersDoomsday.jpg", "2026-12-01", "19:00", "Studio 1", 50000
-        );
-        $_SESSION['daftar3D'][] = new Penayangan3D(
-            "Spider-Man: Brand New Day", "Aksi", 150, "SpidermanBrandNewDayPoster.jpg", "2026-08-25", "20:00", "Studio 2", 60000, 15000
-        );
-        $_SESSION['daftarIMAX'][] = new PenayanganIMAX(
-            "Dune: Part Three", "Sci-Fi", 165, "DunePartThree.jpg", "2026-10-10", "21:00", "Studio 3", 70000, 22.5, 35000
-        );
-        $_SESSION['daftarReguler'][] = new PenayanganReguler(
-            "Zootopia 2", "Animasi", 108, "Zootopia2.jpg", "2026-11-15", "16:30", "Studio 4", 45000
-        );
-        $_SESSION['daftar3D'][] = new Penayangan3D(
-            "Avatar: Fire and Ash", "Fantasi", 195, "AvatarFireAndAsh.jpg", "2026-12-19", "18:00", "Studio 5", 65000, 20000
-        );
-    }
-}
-inisialisasiData();
+// Hapus data lama dari format session sebelumnya agar tidak ikut tampil.
+unset($_SESSION['daftarReguler'], $_SESSION['daftar3D'], $_SESSION['daftarIMAX']);
+
+$daftarReguler = array_merge($daftarReguler, $_SESSION['tambahanReguler'] ?? []);
+$daftar3D = array_merge($daftar3D, $_SESSION['tambahan3D'] ?? []);
+$daftarIMAX = array_merge($daftarIMAX, $_SESSION['tambahanIMAX'] ?? []);
+unset($_SESSION['tambahanReguler'], $_SESSION['tambahan3D'], $_SESSION['tambahanIMAX']);
 
 // --- Langkah 2: ambil & hapus pesan flash ---
 // Pola "ambil lalu hapus" adalah inti flash message: pesan ini hanya
@@ -104,13 +100,13 @@ unset($_SESSION['pesan']);
 $semuaBaris = [];
 $nomor = 1;   // nomor urut dimulai dari 1
 
-foreach ($_SESSION['daftarReguler'] as $obj) {
+foreach ($daftarReguler as $obj) {
     $semuaBaris[] = ['nomor' => $nomor++, 'obj' => $obj];
 }
-foreach ($_SESSION['daftar3D'] as $obj) {
+foreach ($daftar3D as $obj) {
     $semuaBaris[] = ['nomor' => $nomor++, 'obj' => $obj];
 }
-foreach ($_SESSION['daftarIMAX'] as $obj) {
+foreach ($daftarIMAX as $obj) {
     $semuaBaris[] = ['nomor' => $nomor++, 'obj' => $obj];
 }
 ?>

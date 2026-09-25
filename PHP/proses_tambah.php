@@ -33,30 +33,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-function inisialisasiData() {
-    if (!isset($_SESSION['daftarReguler'])) {
-        $_SESSION['daftarReguler'] = [];
-        $_SESSION['daftar3D'] = [];
-        $_SESSION['daftarIMAX'] = [];
-
-        $_SESSION['daftarReguler'][] = new PenayanganReguler(
-            "Avengers: Doomsday", "Aksi", 180, "", "2026-12-01", "19:00", "Studio 1", 50000
-        );
-        $_SESSION['daftar3D'][] = new Penayangan3D(
-            "Spider-Man: Brand New Day", "Aksi", 150, "", "2026-08-25", "20:00", "Studio 2", 60000, 15000
-        );
-        $_SESSION['daftarIMAX'][] = new PenayanganIMAX(
-            "Dune: Part Three", "Sci-Fi", 165, "", "2026-10-10", "21:00", "Studio 3", 70000, 22.5, 35000
-        );
-        $_SESSION['daftarReguler'][] = new PenayanganReguler(
-            "Zootopia 2", "Animasi", 108, "", "2026-11-15", "16:30", "Studio 4", 45000
-        );
-        $_SESSION['daftar3D'][] = new Penayangan3D(
-            "Avatar: Fire and Ash", "Fantasi", 195, "", "2026-12-19", "18:00", "Studio 5", 65000, 20000
-        );
-    }
-}
-inisialisasiData();
+// Data awal dibuat langsung oleh index.php pada setiap request. Session hanya
+// dipakai sebagai tempat sementara untuk data yang baru dikirim form.
+unset($_SESSION['daftarReguler'], $_SESSION['daftar3D'], $_SESSION['daftarIMAX']);
 
 // --- Langkah 1: pastikan diakses lewat POST ---
 // Jika seseorang membuka proses_tambah.php langsung lewat address bar
@@ -139,13 +118,13 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
 // --- Langkah 5: buat objek sesuai jenis, simpan ke session ---
 if ($jenis === 1) {
     // REGULER: tidak ada data tambahan.
-    $_SESSION['daftarReguler'][] = new PenayanganReguler(
+    $_SESSION['tambahanReguler'][] = new PenayanganReguler(
         $judulFilm, $genre, $durasi, $fotoFilm, $tanggal, $jam, $studio, $hargaTiket
     );
 } elseif ($jenis === 2) {
     // 3D: butuh satu data tambahan, yaitu biaya kacamata.
     $biayaKacamata = (int) ($_POST['biayaKacamata'] ?? 0);
-    $_SESSION['daftar3D'][] = new Penayangan3D(
+    $_SESSION['tambahan3D'][] = new Penayangan3D(
         $judulFilm, $genre, $durasi, $fotoFilm, $tanggal, $jam, $studio, $hargaTiket, $biayaKacamata
     );
 } else {
@@ -153,7 +132,7 @@ if ($jenis === 1) {
     // (float) dipakai karena ukuran layar boleh desimal (mis. 22.5).
     $ukuranLayar  = (float) ($_POST['ukuranLayar'] ?? 0);
     $biayaPremium = (int) ($_POST['biayaPremium'] ?? 0);
-    $_SESSION['daftarIMAX'][] = new PenayanganIMAX(
+    $_SESSION['tambahanIMAX'][] = new PenayanganIMAX(
         $judulFilm, $genre, $durasi, $fotoFilm, $tanggal, $jam, $studio, $hargaTiket, $ukuranLayar, $biayaPremium
     );
 }
