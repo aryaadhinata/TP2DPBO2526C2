@@ -18,15 +18,15 @@ class Penayangan3D(Penayangan):
     # parameter baru: biaya_kacamata (default 0, meniru constructor
     # default C++/Java).
     def __init__(self, judul_film="", genre="", durasi_menit=0,
-                 tanggal="", jam="", nama_studio="", harga_tiket=0,
-                 biaya_kacamata=0):
+                tanggal="", jam="", nama_studio="", harga_tiket=0,
+                biaya_kacamata=0):
         # super().__init__(...) memanggil constructor Penayangan (parent
         # langsung), yang lalu meneruskan data film & jadwal ke
         # InformasiFilm dan InformasiJadwal. 7 nilai pertama diteruskan
         # apa adanya; biaya_kacamata TIDAK ikut diteruskan karena hanya
         # dikenal oleh class ini sendiri.
         super().__init__(judul_film, genre, durasi_menit,
-                          tanggal, jam, nama_studio, harga_tiket)
+                        tanggal, jam, nama_studio, harga_tiket)
         self.biaya_kacamata = biaya_kacamata
 
     # Setter & getter untuk atribut khusus 3D
