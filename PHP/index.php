@@ -21,19 +21,6 @@
 //      lagi menghitung lebar kolom manual seperti versi terminal.
 // =====================================================================
 
-// =====================================================================
-// PERSIAPAN AWAL (dulu di file terpisah includes/bootstrap.php,
-// sekarang di-inline langsung di sini agar lebih sederhana/"vanilla" --
-// tidak perlu file tambahan).
-//
-// CATATAN: kata "bootstrap" di komentar sebelumnya TIDAK ADA HUBUNGANNYA
-// dengan framework CSS/JS "Bootstrap" (Twitter Bootstrap). Di dunia PHP,
-// "bootstrap" hanya istilah umum untuk "kode persiapan yang dijalankan
-// paling awal" sebelum halaman diproses -- kebetulan namanya sama saja.
-// Halaman ini murni PHP + HTML + CSS + JS biasa, TIDAK memakai
-// framework/library front-end apa pun.
-// =====================================================================
-
 // Autoload class: setiap kali kode memakai nama class/trait yang belum
 // pernah di-require, PHP otomatis mencarinya di folder classes/.
 // Padanan sederhana dari #include (C++) / import (Java, Python), tapi
