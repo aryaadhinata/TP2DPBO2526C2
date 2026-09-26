@@ -178,7 +178,7 @@ void tambahBaris(vector<vector<string>>& baris, T& obj, int& nomor) {
 
     // 'nomor++' (post-increment): nilai yang dipakai adalah nilai SEBELUM
     // ditambah, lalu nomor naik 1 untuk baris berikutnya.
-    // Karena nomor awal di pemanggil = 0, baris pertama bernomor 0.
+    // Karena nomor awal di pemanggil = 1, baris pertama bernomor 1.
     row.push_back(to_string(nomor++));
 
     // Urutan push_back di bawah HARUS sama dengan urutan judul kolom
@@ -262,7 +262,7 @@ void tampilkanTabelPenayangan(vector<PenayanganReguler>& daftarReguler,
         cout << endl;
     };
 
-    // Mencetak satu baris data, contoh: | 0 | Reguler | ... |
+    // Mencetak satu baris data, contoh: | 1 | Reguler | ... |
     // left + setw(...) = rata kiri dengan lebar tetap; (lebar - 1) karena
     // sudah ada 1 spasi di depan (" ") sebagai padding kiri.
     auto cetakBaris = [&](vector<string>& row) {
