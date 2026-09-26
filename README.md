@@ -446,7 +446,6 @@ Lalu buka `http://localhost:8000` di browser. Bisa juga ditaruh di folder `htdoc
 
 | Hal | C++ | Java | Python | PHP |
 |---|---|---|---|---|
-| Nomor urut tabel mulai dari | **0** | 1 | 1 | 1 |
 | Validasi input angka salah ketik | tidak divalidasi (bisa gagal diam-diam) | divalidasi, input diulang | divalidasi, input diulang | divalidasi lewat atribut HTML `required`/`type` |
 | Atribut `fotoFilm` (poster) | tidak ada | tidak ada | tidak ada | **ada** (permintaan tambahan khusus PHP) |
 
@@ -455,4 +454,3 @@ Lalu buka `http://localhost:8000` di browser. Bisa juga ditaruh di folder `htdoc
 - **Data tidak persisten.** Data hilang saat program (C++/Java/Python) ditutup atau session PHP berakhir. Pengecualian: **file poster** PHP tetap tersimpan fisik di `uploads/` walau data tabelnya sudah hilang dari session (berpotensi jadi *file yatim*/orphan jika session berakhir sebelum foto "dipakai" lagi).
 - **Data awal sama di keempat bahasa**: *Avengers: Doomsday*, *Zootopia 2*, *Spider-Man: Brand New Day*, *Avatar: Fire and Ash*, *Dune: Part Three* — lima data ini dihardcode identik di C++, Java, Python, dan PHP.
 - **Upload foto PHP** dibatasi ekstensi (`jpg, jpeg, png, gif, webp`) dan diberi nama unik lewat `uniqid()`, tetapi **tidak ada validasi ukuran file maksimum**.
-- **Artefak build** (`Main.exe`) ikut berada di folder `Cpp/`. Sebaiknya ditambahkan ke `.gitignore` jika proyek ini dipush ke Git.
